@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Títulos Animados</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Estilos del panel de control (igual que antes pero ajustados) */
+        :root {
+            --primary-color: #1a1d21;
+            --secondary-color: #4f8ff0;
+            --accent-color: #e74c3c;
+            --light-color: #e6e6e6;
+            --dark-color: #1a1d21;
+            --panel-bg: rgba(30, 33, 36, 0.95);
+            --border-color: #3a3d42;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --transition: all 0.2s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: #111315;
+            color: var(--light-color);
+            min-height: 100vh;
+            padding: 15px;
+            font-size: 13px;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .control-panel {
+            background: var(--panel-bg);
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        .control-panel h3 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .control-panel h3 i {
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            font-size: 13px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            background: #2a2d32;
+            color: var(--light-color);
+            font-size: 13px;
+            transition: var(--transition);
+        }
+
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(79, 143, 240, 0.2);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            gap: 8px;
+        }
+
+        .btn:hover:not(:disabled) {
+            background: #3a7de0;
+            transform: translateY(-1px);
+        }
+
+        .btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .btn i {
+            font-size: 12px;
+        }
+
+        .btn-full {
+            width: 100%;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .switch-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding: 12px 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #555;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--secondary-color);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        .switch-label {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .theme-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .theme-option {
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 12px;
+        }
+
+        .theme-option:hover {
+            border-color: var(--secondary-color);
+            background: rgba(79, 143, 240, 0.1);
+        }
+
+        .theme-option.active {
+            border-color: var(--secondary-color);
+            background: rgba(79, 143, 240, 0.2);
+            color: var(--secondary-color);
+        }
+
+        .theme-indicator {
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(79, 143, 240, 0.1);
+            border-radius: 5px;
+            border-left: 3px solid var(--secondary-color);
+            font-size: 12px;
+        }
+
+        .file-input-container {
+            position: relative;
+            margin-top: 5px;
+        }
+
+        .file-input {
+            opacity: 0;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-input-label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            background: #2a2d32;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .file-input-label:hover {
+            border-color: var(--secondary-color);
+        }
+
+        .file-input-label i {
+            color: #999;
+        }
+
+        .preview-container {
+            margin-top: 10px;
+            padding: 10px;
+            background: #2a2d32;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .preview-container.visible {
+            display: block;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 150px;
+            object-fit: contain;
+            border-radius: 3px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title i {
+            font-size: 12px;
+        }
+
+        .theme-preview {
+            margin-top: 15px;
+            padding: 15px;
+            background: #2a2d32;
+            border-radius: 5px;
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .theme-preview h4 {
+            margin-bottom: 8px;
+            color: var(--secondary-color);
+            font-size: 13px;
+        }
+
+        .theme-features {
+            font-size: 11px;
+            color: #aaa;
+            line-height: 1.4;
+        }
+
+        .theme-features i {
+            margin-right: 5px;
+            font-size: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="control-panel">
+            <h3><i class="fas fa-film"></i> Control de Títulos Animados</h3>
+            
+            <!-- Sección de Contenido -->
+            <div class="section">
+                <div class="section-title">
+                    <i class="fas fa-edit"></i> Contenido del Título
+                </div>
+                <div class="form-group">
+                    <label for="title-input">Título Principal</label>
+                    <textarea id="title-input" placeholder="Escriba el título principal...">Bienvenidos al Servicio</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="subtitle-input">Subtítulo (Opcional)</label>
+                    <input type="text" id="subtitle-input" placeholder="Subtítulo o descripción..." value="Domingo de Adoración">
+                </div>
+            </div>
+
+            <!-- Sección de Tema -->
+            <div class="section">
+                <div class="section-title">
+                    <i class="fas fa-palette"></i> Selección de Tema
+                </div>
+                <div class="theme-indicator">
+                    <strong>Tema actual:</strong> <span id="current-theme">Iglesia (Logo centrado superior)</span>
+                </div>
+                
+                <div class="theme-preview">
+                    <h4>Características del tema seleccionado:</h4>
+                    <div class="theme-features" id="theme-features">
+                        <div><i class="fas fa-check-circle"></i> Logo centrado en la parte superior</div>
+                        <div><i class="fas fa-check-circle"></i> Barra inferior marrón clásico</div>
+                        <div><i class="fas fa-check-circle"></i> Animación de entrada suave</div>
+                        <div><i class="fas fa-check-circle"></i> Texto blanco con sombra</div>
+                    </div>
+                </div>
+                
+                <div class="theme-selector">
+                    <div class="theme-option active" data-theme="church" data-name="Iglesia">
+                        <i class="fas fa-church"></i><br>
+                        Iglesia
+                    </div>
+                    <div class="theme-option" data-theme="classic" data-name="Clásico">
+                        <i class="fas fa-landmark"></i><br>
+                        Clásico
+                    </div>
+                    <div class="theme-option" data-theme="modern" data-name="Moderno">
+                        <i class="fas fa-gem"></i><br>
+                        Moderno
+                    </div>
+                    <div class="theme-option" data-theme="elegant" data-name="Elegante">
+                        <i class="fas fa-crown"></i><br>
+                        Elegante
+                    </div>
+                    <div class="theme-option" data-theme="minimal" data-name="Minimalista">
+                        <i class="fas fa-minimize"></i><br>
+                        Minimalista
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de Fondo -->
+            <div class="section">
+                <div class="section-title">
+                    <i class="fas fa-image"></i> Imagen de Fondo
+                </div>
+                <div class="form-group">
+                    <label>Seleccionar imagen (JPG, PNG)</label>
+                    <div class="file-input-container">
+                        <input type="file" id="background-file" class="file-input" accept="image/*">
+                        <label for="background-file" class="file-input-label">
+                            <span id="background-label">Seleccionar imagen de fondo...</span>
+                            <i class="fas fa-upload"></i>
+                        </label>
+                    </div>
+                    <div class="preview-container" id="background-preview">
+                        <img src="" alt="Vista previa" class="preview-image" id="background-preview-image">
+                    </div>
+                </div>
+                <button id="clear-background" class="btn">
+                    <i class="fas fa-times"></i> Quitar Fondo
+                </button>
+            </div>
+
+            <!-- Sección de Logo -->
+            <div class="section">
+                <div class="section-title">
+                    <i class="fas fa-copyright"></i> Logotipo PNG
+                </div>
+                <div class="form-group">
+                    <label>Seleccionar logo (PNG con transparencia)</label>
+                    <div class="file-input-container">
+                        <input type="file" id="logo-file" class="file-input" accept="image/png">
+                        <label for="logo-file" class="file-input-label">
+                            <span id="logo-label">Seleccionar logo PNG...</span>
+                            <i class="fas fa-upload"></i>
+                        </label>
+                    </div>
+                    <div class="preview-container" id="logo-preview">
+                        <img src="" alt="Vista previa" class="preview-image" id="logo-preview-image">
+                    </div>
+                </div>
+                <button id="clear-logo" class="btn">
+                    <i class="fas fa-times"></i> Quitar Logo
+                </button>
+            </div>
+
+            <!-- Controles de Visibilidad -->
+            <div class="section">
+                <div class="section-title">
+                    <i class="fas fa-video"></i> Control de Animaciones
+                </div>
+                <div class="btn-group">
+                    <button id="show-title" class="btn btn-full">
+                        <i class="fas fa-play-circle"></i> Mostrar con Animación
+                    </button>
+                    <button id="update-title" class="btn btn-full">
+                        <i class="fas fa-sync-alt"></i> Actualizar Todo
+                    </button>
+                </div>
+                <div class="switch-container">
+                    <span class="switch-label">Mostrar/Ocultar</span>
+                    <label class="switch">
+                        <input type="checkbox" id="visibility-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos de temas
+        const themeData = {
+            church: {
+                name: "Iglesia",
+                features: [
+                    "Logo centrado en la parte superior",
+                    "Barra inferior marrón clásico",
+                    "Animación de entrada suave",
+                    "Texto blanco con sombra",
+                    "Posición: Logo arriba centrado"
+                ]
+            },
+            classic: {
+                name: "Clásico",
+                features: [
+                    "Logo en esquina superior derecha",
+                    "Barra inferior azul oscuro",
+                    "Animación de deslizamiento",
+                    "Fuente Times New Roman",
+                    "Posición: Logo arriba derecha"
+                ]
+            },
+            modern: {
+                name: "Moderno",
+                features: [
+                    "Logo en esquina superior izquierda",
+                    "Barra inferior azul moderno",
+                    "Animación 3D de rotación",
+                    "Fuente Open Sans moderna",
+                    "Posición: Logo arriba izquierda"
+                ]
+            },
+            elegant: {
+                name: "Elegante",
+                features: [
+                    "Logo centrado en medio",
+                    "Barra inferior púrpura elegante",
+                    "Animación de elevación",
+                    "Fuente Georgia con cursiva",
+                    "Posición: Logo centrado medio"
+                ]
+            },
+            minimal: {
+                name: "Minimalista",
+                features: [
+                    "Logo semi-transparente centrado",
+                    "Barra inferior blanca minimal",
+                    "Animación sutil de escala",
+                    "Texto oscuro mayúsculas",
+                    "Posición: Logo transparente centro"
+                ]
+            }
+        };
+
+        // Elementos del DOM
+        const titleInput = document.getElementById('title-input');
+        const subtitleInput = document.getElementById('subtitle-input');
+        const themeOptions = document.querySelectorAll('.theme-option');
+        const currentThemeSpan = document.getElementById('current-theme');
+        const themeFeatures = document.getElementById('theme-features');
+        const backgroundFile = document.getElementById('background-file');
+        const backgroundPreview = document.getElementById('background-preview');
+        const backgroundPreviewImage = document.getElementById('background-preview-image');
+        const backgroundLabel = document.getElementById('background-label');
+        const logoFile = document.getElementById('logo-file');
+        const logoPreview = document.getElementById('logo-preview');
+        const logoPreviewImage = document.getElementById('logo-preview-image');
+        const logoLabel = document.getElementById('logo-label');
+        const clearBackgroundBtn = document.getElementById('clear-background');
+        const clearLogoBtn = document.getElementById('clear-logo');
+        const showTitleBtn = document.getElementById('show-title');
+        const updateTitleBtn = document.getElementById('update-title');
+        const visibilityToggle = document.getElementById('visibility-toggle');
+
+        // Estado actual
+        let currentState = {
+            title: 'Bienvenidos al Servicio',
+            subtitle: 'Domingo de Adoración',
+            theme: 'church',
+            backgroundImage: null,
+            logoImage: null,
+            isVisible: false
+        };
+
+        // Actualizar vista previa del tema
+        function updateThemePreview(theme) {
+            const data = themeData[theme];
+            currentThemeSpan.textContent = `${data.name} (${theme})`;
+            
+            themeFeatures.innerHTML = '';
+            data.features.forEach(feature => {
+                const div = document.createElement('div');
+                div.innerHTML = `<i class="fas fa-check-circle"></i> ${feature}`;
+                themeFeatures.appendChild(div);
+            });
+        }
+
+        // Seleccionar tema
+        function selectTheme(theme) {
+            themeOptions.forEach(option => option.classList.remove('active'));
+            document.querySelector(`[data-theme="${theme}"]`).classList.add('active');
+            
+            currentState.theme = theme;
+            updateThemePreview(theme);
+            saveState();
+        }
+
+        // Enviar comando al visualizador
+        function sendCommand(command) {
+            localStorage.setItem('animatedTitleCommand', JSON.stringify(command));
+            window.dispatchEvent(new Event('storage'));
+        }
+
+        // Actualizar visualizador
+        function updateVisualizer() {
+            sendCommand({
+                action: 'update',
+                title: currentState.title,
+                subtitle: currentState.subtitle,
+                theme: currentState.theme,
+                backgroundImage: currentState.backgroundImage,
+                logoUrl: currentState.logoImage
+            });
+        }
+
+        // Mostrar título
+        function showTitle() {
+            sendCommand({ action: 'show' });
+            currentState.isVisible = true;
+            visibilityToggle.checked = true;
+            saveState();
+        }
+
+        // Ocultar título
+        function hideTitle() {
+            sendCommand({ action: 'hide' });
+            currentState.isVisible = false;
+            visibilityToggle.checked = false;
+            saveState();
+        }
+
+        // Cargar imagen de fondo
+        function loadBackgroundImage(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                currentState.backgroundImage = e.target.result;
+                backgroundPreviewImage.src = e.target.result;
+                backgroundPreview.classList.add('visible');
+                backgroundLabel.textContent = file.name;
+                updateVisualizer();
+                saveState();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Cargar logo
+        function loadLogoImage(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                currentState.logoImage = e.target.result;
+                logoPreviewImage.src = e.target.result;
+                logoPreview.classList.add('visible');
+                logoLabel.textContent = file.name;
+                updateVisualizer();
+                saveState();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Limpiar fondo
+        function clearBackground() {
+            currentState.backgroundImage = null;
+            backgroundPreview.classList.remove('visible');
+            backgroundPreviewImage.src = '';
+            backgroundLabel.textContent = 'Seleccionar imagen de fondo...';
+            sendCommand({ action: 'setBackground', backgroundImage: null });
+            saveState();
+        }
+
+        // Limpiar logo
+        function clearLogo() {
+            currentState.logoImage = null;
+            logoPreview.classList.remove('visible');
+            logoPreviewImage.src = '';
+            logoLabel.textContent = 'Seleccionar logo PNG...';
+            sendCommand({ action: 'setLogo', logoUrl: null });
+            saveState();
+        }
+
+        // Guardar estado
+        function saveState() {
+            localStorage.setItem('animatedTitleState', JSON.stringify(currentState));
+        }
+
+        // Cargar estado guardado
+        function loadSavedState() {
+            const saved = localStorage.getItem('animatedTitleState');
+            if (saved) {
+                const state = JSON.parse(saved);
+                currentState = state;
+                
+                // Actualizar UI
+                titleInput.value = state.title;
+                subtitleInput.value = state.subtitle || '';
+                selectTheme(state.theme);
+                visibilityToggle.checked = state.isVisible;
+                
+                // Restaurar imágenes
+                if (state.backgroundImage) {
+                    backgroundPreviewImage.src = state.backgroundImage;
+                    backgroundPreview.classList.add('visible');
+                    backgroundLabel.textContent = 'Imagen cargada';
+                }
+                
+                if (state.logoImage) {
+                    logoPreviewImage.src = state.logoImage;
+                    logoPreview.classList.add('visible');
+                    logoLabel.textContent = 'Logo cargado';
+                }
+                
+                // Actualizar visualizador
+                updateVisualizer();
+                
+                // Si estaba visible, mostrar
+                if (state.isVisible) {
+                    setTimeout(showTitle, 500);
+                }
+            }
+        }
+
+        // Configurar event listeners
+        function setupEventListeners() {
+            // Título y subtítulo
+            titleInput.addEventListener('input', () => {
+                currentState.title = titleInput.value;
+                saveState();
+            });
+            
+            subtitleInput.addEventListener('input', () => {
+                currentState.subtitle = subtitleInput.value;
+                saveState();
+            });
+
+            // Temas
+            themeOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const theme = this.dataset.theme;
+                    selectTheme(theme);
+                    
+                    // Si está visible, hacer transición suave
+                    if (currentState.isVisible) {
+                        sendCommand({ 
+                            action: 'setTheme', 
+                            theme: theme 
+                        });
+                    } else {
+                        sendCommand({ 
+                            action: 'update',
+                            theme: theme,
+                            title: currentState.title,
+                            subtitle: currentState.subtitle,
+                            backgroundImage: currentState.backgroundImage,
+                            logoUrl: currentState.logoImage
+                        });
+                    }
+                });
+            });
+
+            // Fondo
+            backgroundFile.addEventListener('change', (e) => {
+                if (e.target.files && e.target.files[0]) {
+                    loadBackgroundImage(e.target.files[0]);
+                }
+            });
+
+            // Logo
+            logoFile.addEventListener('change', (e) => {
+                if (e.target.files && e.target.files[0]) {
+                    loadLogoImage(e.target.files[0]);
+                }
+            });
+
+            // Botones
+            clearBackgroundBtn.addEventListener('click', clearBackground);
+            clearLogoBtn.addEventListener('click', clearLogo);
+            
+            showTitleBtn.addEventListener('click', () => {
+                updateVisualizer();
+                setTimeout(showTitle, 100);
+            });
+            
+            updateTitleBtn.addEventListener('click', () => {
+                updateVisualizer();
+                if (currentState.isVisible) {
+                    setTimeout(showTitle, 100);
+                }
+            });
+
+            // Toggle de visibilidad
+            visibilityToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    showTitle();
+                } else {
+                    hideTitle();
+                }
+            });
+        }
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            loadSavedState();
+            updateThemePreview(currentState.theme);
+            
+            // Enviar configuración inicial
+            setTimeout(updateVisualizer, 500);
+        });
+    </script>
+</body>
+</html>
