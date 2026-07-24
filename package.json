@@ -1,6 +1,6 @@
 {
   "name": "title-animation-obs",
-  "version": "2.0.0",
+  "version": "1.1.0",
   "private": true,
   "description": "Panel Node para crear y emitir títulos animados en OBS.",
   "type": "commonjs",

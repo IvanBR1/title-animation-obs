@@ -14,7 +14,7 @@
   <div class="main-container">
     <header class="app-header">
       <div class="brand"><span class="brand-mark">T</span><div><span class="panel-kicker">Control de transmisión</span><h1>Títulos OBS</h1></div></div>
-      <div class="header-actions"><span class="status"><i></i> Sincronizado</span><a class="icon-button" href="/visualizador/" target="_blank" title="Abrir visualizador">↗</a><button id="settings-button" class="icon-button" type="button" aria-label="Abrir ajustes" aria-controls="settings-drawer">☰</button></div>
+      <div class="header-actions"><span class="status"><i></i> Sincronizado</span><button id="settings-button" class="icon-button" type="button" aria-label="Abrir personalización" aria-controls="settings-drawer">☰</button></div>
     </header>
 
     <main class="workspace">
@@ -24,12 +24,7 @@
           <label for="title-input">Título</label><input id="title-input" maxlength="100" value="Bienvenidos">
           <label for="subtitle-input">Subtítulo</label><textarea id="subtitle-input" maxlength="180" rows="2">Gracias por acompañarnos</textarea>
           <label for="eyebrow-input">Etiqueta superior</label><input id="eyebrow-input" maxlength="40" value="EN VIVO">
-          <div class="asset-grid">
-            <div><label for="background-input">Imagen de fondo</label><label class="file-button"><input id="background-input" type="file" accept="image/png,image/jpeg,image/webp">Elegir imagen</label><button class="text-button" id="clear-background" type="button">Quitar fondo</button></div>
-            <div><label for="logo-input">Logotipo</label><label class="file-button"><input id="logo-input" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml">Elegir logo</label><button class="text-button" id="clear-logo" type="button">Quitar logo</button></div>
-          </div>
-          <div class="broadcast-control"><div><span class="broadcast-icon">●</span><span><strong>Salida en vivo</strong><small>Mostrar el título en OBS</small></span></div><label class="switch"><input id="visibility-toggle" type="checkbox"><span class="slider"></span></label></div>
-          <div class="action-row"><button id="update-button" class="btn btn-secondary" type="button">Actualizar</button><button id="show-button" class="btn" type="button">Mostrar título</button></div>
+          <div class="broadcast-control"><div><span class="broadcast-icon">●</span><span><strong>Salida en vivo</strong><small>Todo se sincroniza automáticamente</small></span></div><label class="switch"><input id="visibility-toggle" type="checkbox"><span class="slider"></span></label></div>
         </div>
       </section>
 
@@ -40,9 +35,12 @@
       </section>
     </main>
 
-    <section class="themes-panel">
-      <div class="panel-heading"><span class="step-number">03</span><div><h2>Temas de título</h2><p>Ocho composiciones realmente diferentes</p></div></div>
-      <div class="theme-list" id="theme-list" role="radiogroup">
+  </div>
+
+  <aside id="settings-drawer" class="settings-drawer" aria-hidden="true">
+    <div class="settings-header"><div><span class="eyebrow-ui">Personalización</span><h2>Apariencia del título</h2><p>Los cambios se reflejan al instante en la vista previa.</p></div><button id="settings-close" class="icon-button" type="button" aria-label="Cerrar personalización">×</button></div>
+    <div class="settings-body">
+      <section><div class="settings-section-heading"><span>01</span><div><h3>Estilo</h3><p>Elige la apariencia general del título.</p></div></div><div class="theme-list" id="theme-list" role="radiogroup" aria-label="Tema del título">
         <button class="theme-card selected" data-theme="broadcast"><span class="swatch broadcast"></span><strong>Broadcast</strong><small>Placa lateral</small></button>
         <button class="theme-card" data-theme="glass"><span class="swatch glass"></span><strong>Glass</strong><small>Vidrio centrado</small></button>
         <button class="theme-card" data-theme="editorial"><span class="swatch editorial"></span><strong>Editorial</strong><small>Serif refinado</small></button>
@@ -51,34 +49,64 @@
         <button class="theme-card" data-theme="minimal"><span class="swatch minimal"></span><strong>Mínimo</strong><small>Tipografía limpia</small></button>
         <button class="theme-card" data-theme="ribbon"><span class="swatch ribbon"></span><strong>Cinta</strong><small>Lower third</small></button>
         <button class="theme-card" data-theme="spotlight"><span class="swatch spotlight"></span><strong>Spotlight</strong><small>Escenario dorado</small></button>
-      </div>
-    </section>
-  </div>
-
-  <aside id="settings-drawer" class="settings-drawer" aria-hidden="true">
-    <div class="settings-header"><div><span class="eyebrow-ui">Personalización</span><h2>Diseño y posición</h2></div><button id="settings-close" class="icon-button" type="button">×</button></div>
-    <div class="settings-body">
-      <section><h3>Composición</h3><div class="settings-grid">
-        <label for="horizontal-align">Posición horizontal</label><select id="horizontal-align"><option value="left">Izquierda</option><option value="center">Centro</option><option value="right">Derecha</option></select>
-        <label for="vertical-align">Posición vertical</label><select id="vertical-align"><option value="top">Arriba</option><option value="center">Centro</option><option value="bottom">Abajo</option></select>
-        <label for="max-width">Ancho de placa <output id="max-width-value"></output></label><input id="max-width" type="range" min="420" max="1600" step="20">
-        <label for="padding">Márgenes internos <output id="padding-value"></output></label><input id="padding" type="range" min="16" max="100">
       </div></section>
-      <section><h3>Tipografía</h3><div class="settings-grid">
+      <section><div class="settings-section-heading"><span>02</span><div><h3>Fondo</h3><p>Define el lienzo detrás del título.</p></div></div><div class="settings-grid">
+        <label for="background-type">Tipo de fondo</label><select id="background-type"><option value="color">Color</option><option value="image">Imagen</option><option value="video">Video</option></select>
+        <div id="background-color-fields"><label for="background-color">Color</label><input id="background-color" type="color"></div>
+        <div id="background-media-fields" hidden>
+          <input id="background-input" class="file-input" type="file" accept="image/png,image/jpeg,image/webp">
+          <button id="background-file-button" class="upload-control" type="button">
+            <span class="upload-empty">Elegir o arrastrar imagen</span>
+            <span class="upload-loaded"><b>✓</b><span id="background-file-name">Archivo cargado</span></span>
+            <span class="upload-remove">Quitar archivo</span>
+          </button>
+          <div class="fit-row"><div><label for="background-fit">Ajuste</label><select id="background-fit"><option value="cover">Rellenar</option><option value="stretch">Escalar</option><option value="contain">Proporción real</option></select></div>
+            <div class="anchor-wrap"><button id="anchor-button" class="ruler-button" type="button" aria-label="Elegir parte de la imagen" aria-expanded="false" title="Punto de anclaje">📐</button><div id="anchor-popover" class="anchor-popover" hidden><span>Parte visible</span><div class="anchor-grid" role="radiogroup"></div></div></div>
+          </div>
+          <div id="image-options" class="media-options"><div class="switch-row"><span>Animar imagen</span><label class="switch"><input id="image-animation" type="checkbox"><span class="slider"></span></label></div></div>
+          <div id="video-options" class="media-options" hidden aria-hidden="true">
+            <label for="video-effect">Reproducción</label><select id="video-effect">
+              <option value="none">Ninguno · detener al final</option>
+              <option value="loop">Repetir</option>
+              <option value="alternate">Alternar orientación</option>
+              <option value="mirror">Repetir reflejado</option>
+            </select>
+            <div class="range-heading"><label>Tramo del video</label><output id="video-range-value">0% — 100%</output></div>
+            <div id="video-range" class="dual-range" style="--range-start:0%;--range-end:100%">
+              <div class="dual-range-track"></div>
+              <input id="video-start" type="range" min="0" max="100" value="0" aria-label="Inicio del tramo">
+              <input id="video-end" type="range" min="0" max="100" value="100" aria-label="Final del tramo">
+            </div>
+            <p class="control-help">Selecciona desde dónde y hasta dónde se reproducirá el video.</p>
+          </div>
+        </div>
+        <label for="overlay-opacity">Oscurecer fondo <output id="overlay-opacity-value"></output></label><input id="overlay-opacity" type="range" min="0" max="90">
+      </div></section>
+      <section><div class="settings-section-heading"><span>03</span><div><h3>Logotipo</h3><p>Añade y dimensiona la marca sin deformarla.</p></div></div><div class="settings-grid">
+        <input id="logo-input" class="file-input" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml">
+        <button id="logo-file-button" class="upload-control" type="button">
+          <span class="upload-empty">Elegir o arrastrar logotipo</span>
+          <span class="upload-loaded"><b>✓</b><span id="logo-status">Logotipo cargado</span></span>
+          <span class="upload-remove">Quitar logotipo</span>
+        </button>
+        <label for="logo-filter">Tratamiento de color</label><select id="logo-filter"><option value="none">Original</option><option value="invert">Invertir blanco y negro</option><option value="colorize">Aplicar color</option></select>
+        <div id="logo-color-field" hidden><label for="logo-color">Color del logotipo</label><input id="logo-color" type="color"></div>
+        <label for="logo-width">Ancho máximo logo <output id="logo-width-value"></output></label><input id="logo-width" type="range" min="80" max="700" step="10">
+        <label for="logo-height">Alto máximo logo <output id="logo-height-value"></output></label><input id="logo-height" type="range" min="60" max="450" step="10">
+      </div></section>
+      <section><div class="settings-section-heading"><span>04</span><div><h3>Tipografía</h3><p>Ajusta la voz visual y la lectura.</p></div></div><div class="settings-grid">
         <label for="font-family">Tipo de letra</label><select id="font-family">
           <option value="'Inter', sans-serif">Inter</option><option value="'Open Sans', sans-serif">Open Sans</option><option value="'Montserrat', sans-serif">Montserrat</option><option value="'Archivo', sans-serif">Archivo</option><option value="'Space Grotesk', sans-serif">Space Grotesk</option><option value="'Oswald', sans-serif">Oswald</option><option value="'Bebas Neue', sans-serif">Bebas Neue</option><option value="'Roboto Slab', serif">Roboto Slab</option><option value="'Libre Baskerville', serif">Libre Baskerville</option><option value="'Playfair Display', serif">Playfair Display</option><option value="'Cormorant Garamond', serif">Cormorant Garamond</option><option value="'Cinzel', serif">Cinzel</option>
         </select>
         <label for="font-size">Tamaño del título <output id="font-size-value"></output></label><input id="font-size" type="range" min="28" max="110">
-        <label for="text-align">Alineación de texto</label><select id="text-align"><option value="left">Izquierda</option><option value="center">Centro</option><option value="right">Derecha</option></select>
-        <label for="text-color">Color del texto</label><input id="text-color" type="color">
+        <div class="paired-controls"><div><label for="text-align">Alineación</label><select id="text-align"><option value="left">Izquierda</option><option value="center">Centro</option><option value="right">Derecha</option></select></div><div><label for="text-color">Color del texto</label><input id="text-color" type="color"></div></div>
       </div></section>
-      <section><h3>Fondo y logo</h3><div class="settings-grid">
-        <div class="switch-row"><span>Mostrar fondo</span><label class="switch"><input id="background-toggle" type="checkbox"><span class="slider"></span></label></div>
-        <label for="overlay-opacity">Oscurecer imagen <output id="overlay-opacity-value"></output></label><input id="overlay-opacity" type="range" min="0" max="90">
-        <label for="logo-width">Ancho máximo logo <output id="logo-width-value"></output></label><input id="logo-width" type="range" min="80" max="700" step="10">
-        <label for="logo-height">Alto máximo logo <output id="logo-height-value"></output></label><input id="logo-height" type="range" min="60" max="450" step="10">
+      <section><div class="settings-section-heading"><span>05</span><div><h3>Composición</h3><p>Ubica el título y controla su espacio.</p></div></div><div class="settings-grid">
+        <div class="paired-controls"><div><label for="horizontal-align">Horizontal</label><select id="horizontal-align"><option value="left">Izquierda</option><option value="center">Centro</option><option value="right">Derecha</option></select></div><div><label for="vertical-align">Vertical</label><select id="vertical-align"><option value="top">Arriba</option><option value="center">Centro</option><option value="bottom">Abajo</option></select></div></div>
+        <label for="max-width">Ancho de placa <output id="max-width-value"></output></label><input id="max-width" type="range" min="420" max="1600" step="20">
+        <label for="padding">Márgenes internos <output id="padding-value"></output></label><input id="padding" type="range" min="16" max="100">
       </div></section>
-      <section><h3>Movimiento</h3><div class="settings-grid">
+      <section><div class="settings-section-heading"><span>06</span><div><h3>Movimiento</h3><p>Configura cómo entra el título en escena.</p></div></div><div class="settings-grid">
         <label for="animation">Animación de entrada</label><select id="animation"><option value="slide">Deslizar</option><option value="fade">Fundido</option><option value="scale">Escala</option><option value="reveal">Revelado</option><option value="flip">Giro suave</option></select>
         <label for="duration">Duración <output id="duration-value"></output></label><input id="duration" type="range" min="250" max="1800" step="50">
       </div></section>

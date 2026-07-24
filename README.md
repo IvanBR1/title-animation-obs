@@ -21,6 +21,9 @@ navegador para compartir el estado mediante almacenamiento local.
 El repositorio incluye `netlify.toml`. Netlify ejecuta `npm run build` y publica
 la carpeta `public`.
 
-Las imágenes elegidas se procesan en el navegador y no se suben a un servidor.
+Las imágenes y los videos elegidos se guardan localmente en el navegador
+(IndexedDB) y no se suben a un servidor. El fondo admite color, imagen o video,
+ajuste de encuadre, anclaje, animación de imagen y repetición de video.
+
 El logo siempre usa `object-fit: contain`, limitado por el ancho y alto máximos
 configurados, por lo que conserva su proporción y no se recorta.
