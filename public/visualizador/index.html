@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Salida transparente de títulos para OBS">
+  <title>Visualizador · Títulos OBS</title>
+  <link rel="stylesheet" href="/assets/css/titles.css">
+</head>
+<body>
+  <main id="title-stage" class="title-stage" data-theme="broadcast" data-animation="slide">
+    <div class="scene-background" id="scene-background"></div>
+    <div class="scene-shade"></div>
+    <section class="title-card" id="title-card" aria-live="polite">
+      <div class="accent accent-a"></div><div class="accent accent-b"></div>
+      <div class="logo-frame" id="logo-frame"><img id="logo-image" alt=""></div>
+      <div class="copy"><p class="eyebrow" id="eyebrow">EN VIVO</p><h1 id="title">Bienvenidos</h1><p class="subtitle" id="subtitle">Gracias por acompañarnos</p></div>
+    </section>
+  </main>
+  <script src="/assets/js/titles.js"></script>
+</body>
+</html>
