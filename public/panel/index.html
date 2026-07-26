@@ -40,6 +40,7 @@
   <aside id="settings-drawer" class="settings-drawer" aria-hidden="true">
     <div class="settings-header"><div><span class="eyebrow-ui">Personalización</span><h2>Apariencia del título</h2><p>Los cambios se reflejan al instante en la vista previa.</p></div><button id="settings-close" class="icon-button" type="button" aria-label="Cerrar personalización">×</button></div>
     <div class="settings-body">
+      <section class="panel-appearance-section"><div class="settings-section-heading"><span>00</span><div><h3>Panel</h3><p>Optimiza el espacio disponible en OBS.</p></div></div><label for="panel-appearance">Apariencia general</label><select id="panel-appearance"><option value="normal">Normal</option><option value="compact">Compacto</option><option value="minimal">Minimalista</option></select></section>
       <section><div class="settings-section-heading"><span>01</span><div><h3>Estilo</h3><p>Elige la apariencia general del título.</p></div></div><div class="theme-list" id="theme-list" role="radiogroup" aria-label="Tema del título">
         <button class="theme-card selected" data-theme="broadcast"><span class="swatch broadcast"></span><strong>Transmisión</strong><small>Placa lateral</small></button>
         <button class="theme-card" data-theme="classic"><span class="swatch classic"></span><strong>Clásico</strong><small>Tarjeta sobria</small></button>
@@ -117,5 +118,6 @@
   </aside>
   <div id="settings-scrim" class="settings-scrim" hidden></div>
   <script src="/assets/js/panel.js"></script>
+  <script src="/assets/js/panel-appearance.js"></script>
 </body>
 </html>

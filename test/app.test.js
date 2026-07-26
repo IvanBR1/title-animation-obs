@@ -36,6 +36,15 @@ test('incluye diez temas, fuentes y ajuste proporcional de logo', () => {
   assert.match(runtime, /objectFit = 'contain'/u);
 });
 
+test('ofrece apariencias normal, compacta y minimalista para el panel', () => {
+  const panel = fs.readFileSync(path.join(ROOT, 'public/panel/index.html'), 'utf8');
+  const styles = fs.readFileSync(path.join(ROOT, 'public/assets/css/panel.css'), 'utf8');
+  assert.match(panel, /id="panel-appearance"/u);
+  for (const appearance of ['normal', 'compact', 'minimal']) assert.match(panel, new RegExp(`value="${appearance}"`, 'u'));
+  assert.match(styles, /data-panel-appearance="compact"/u);
+  assert.match(styles, /data-panel-appearance="minimal"/u);
+});
+
 test('sincroniza automáticamente con un solo switch y mantiene el preview visible', () => {
   const panel = fs.readFileSync(path.join(ROOT, 'public/panel/index.html'), 'utf8');
   const panelRuntime = fs.readFileSync(path.join(ROOT, 'public/assets/js/panel.js'), 'utf8');
