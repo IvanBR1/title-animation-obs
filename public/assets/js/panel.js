@@ -6,6 +6,8 @@
   const channel = 'BroadcastChannel' in window ? new BroadcastChannel('title-obs-live') : null;
   const themeDefaults = {
     broadcast: { fontFamily: "'Inter', sans-serif", textColor: '#ffffff' },
+    classic: { fontFamily: "'Merriweather', serif", textColor: '#ecf0f1' },
+    modern: { fontFamily: "'Cormorant Garamond', serif", textColor: '#f8efe0' },
     glass: { fontFamily: "'Space Grotesk', sans-serif", textColor: '#ffffff' },
     editorial: { fontFamily: "'Playfair Display', serif", textColor: '#251c19' },
     neon: { fontFamily: "'Bebas Neue', sans-serif", textColor: '#ffffff' },

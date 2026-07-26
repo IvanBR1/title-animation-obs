@@ -59,6 +59,8 @@ input:focus,select:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 
 .theme-card small{color:var(--muted);font-size:8px}
 .swatch{grid-row:1/3;width:46px;height:34px;border-radius:6px}
 .swatch.broadcast{background:linear-gradient(90deg,#3b82f6 12%,#111827 12%)}
+.swatch.classic{background:linear-gradient(135deg,#2c3e50 70%,#3498db 70%)}
+.swatch.modern{background:linear-gradient(135deg,#604522,#16100b)}
 .swatch.glass{background:linear-gradient(135deg,#66d9ef55,#19233b)}
 .swatch.editorial{background:linear-gradient(135deg,#f5ead4,#6f1d2b)}
 .swatch.neon{background:#07111f;box-shadow:inset 0 0 0 2px #00e5ff}

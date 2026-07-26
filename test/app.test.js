@@ -28,10 +28,10 @@ test('sirve el panel y el visualizador', async context => {
   assert.match(await viewer.text(), /title-stage/u);
 });
 
-test('incluye ocho temas, fuentes y ajuste proporcional de logo', () => {
+test('incluye diez temas, fuentes y ajuste proporcional de logo', () => {
   const panel = fs.readFileSync(path.join(ROOT, 'public/panel/index.html'), 'utf8');
   const runtime = fs.readFileSync(path.join(ROOT, 'public/assets/js/titles.js'), 'utf8');
-  assert.equal((panel.match(/class="theme-card/g) || []).length, 8);
+  assert.equal((panel.match(/class="theme-card/g) || []).length, 10);
   assert.match(panel, /Cormorant Garamond/u);
   assert.match(runtime, /objectFit = 'contain'/u);
 });

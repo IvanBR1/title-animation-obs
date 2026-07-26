@@ -44,6 +44,22 @@ html,body{width:100%;height:100%;margin:0;overflow:hidden;background:transparent
 [data-theme=broadcast] .accent-a{inset:0 auto 0 0;width:4px;background:#b8d3ff}
 [data-theme=broadcast] .accent-b{right:-80px;bottom:-130px;width:260px;height:260px;border:45px solid #4f8ff01c;border-radius:50%}
 
+/* Clásico: tarjeta sobria, legible y versátil */
+[data-theme=classic] .title-card{border-left:8px solid #3498db;border-radius:10px;background:#2c3e50f2;box-shadow:0 22px 65px #0008}
+[data-theme=classic] .eyebrow{color:#8fc7ef}
+[data-theme=classic] .title-card h1{font-family:'Merriweather',serif;font-weight:700}
+[data-theme=classic] .accent-a{top:0;right:0;left:0;height:3px;background:#3498db}
+[data-theme=classic] .accent-b{right:28px;bottom:26px;width:64px;height:2px;background:#8fc7ef}
+
+/* Libro moderno: composición editorial cálida */
+[data-theme=modern] .title-card{border:1px solid #f4dcaa42;border-radius:8px;background:linear-gradient(135deg,#604522ed,#16100bf0);box-shadow:0 22px 65px #0009;text-align:center}
+[data-theme=modern] .eyebrow{color:#e7bd75}
+[data-theme=modern] .title-card h1{font-family:'Cormorant Garamond',serif;font-weight:600;letter-spacing:.01em}
+[data-theme=modern] .subtitle{font-family:'Libre Baskerville',serif}
+[data-theme=modern] .accent-a,[data-theme=modern] .accent-b{left:12%;width:76%;height:1px;background:linear-gradient(90deg,transparent,#e7bd75,transparent)}
+[data-theme=modern] .accent-a{top:22px}
+[data-theme=modern] .accent-b{bottom:22px}
+
 /* Glass: cristal centrado y brillo */
 [data-theme=glass] .title-card{border:1px solid #ffffff42;border-radius:30px;background:linear-gradient(135deg,#ffffff25,#8ec5fc12);box-shadow:0 30px 80px #0008,inset 0 1px #fff5;backdrop-filter:blur(24px)}
 [data-theme=glass] .eyebrow{color:#9ee7ff}
