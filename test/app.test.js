@@ -43,6 +43,7 @@ test('ofrece apariencias normal, compacta y minimalista para el panel', () => {
   for (const appearance of ['normal', 'compact', 'minimal']) assert.match(panel, new RegExp(`value="${appearance}"`, 'u'));
   assert.match(styles, /data-panel-appearance="compact"/u);
   assert.match(styles, /data-panel-appearance="minimal"/u);
+  assert.match(panel, /class="close-icon"/u);
 });
 
 test('sincroniza automáticamente con un solo switch y mantiene el preview visible', () => {

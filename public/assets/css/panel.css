@@ -16,6 +16,7 @@ button,input,select,textarea{font:inherit}
 .status i,.live-pill i{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px #34c27a20}
 .icon-button{display:grid;place-items:center;width:35px;height:35px;border:1px solid var(--border);border-radius:9px;background:var(--surface);color:#cbd2dc;text-decoration:none;cursor:pointer}
 .icon-button:hover{border-color:var(--blue);color:white}
+.close-icon{display:block;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
 .workspace{display:grid;grid-template-columns:minmax(330px,.76fr) minmax(440px,1.24fr);gap:12px}
 .control-panel,.preview-panel{padding:16px;border:1px solid var(--border);border-radius:12px;background:#191c22f5;box-shadow:var(--shadow)}
 .panel-heading{gap:11px;margin-bottom:14px}
